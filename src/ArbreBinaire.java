@@ -17,7 +17,7 @@ public class ArbreBinaire {
 
     public ArbreBinaire insertion(int cle,ArbreBinaire arbrebin){
         if (arbrebin == null ) {
-            return new ArbreBinaire(null, cle ,null);
+            arbrebin = new ArbreBinaire(null, cle ,null);
         }
         if (cle<arbrebin.noeud){
             arbrebin.filsG= insertion(cle , arbrebin.filsG);
@@ -31,8 +31,13 @@ public class ArbreBinaire {
 
 
 
-    public void suppression(int cle , ArbreBinaire arbrebin){
+    public ArbreBinaire suppression(int cle , ArbreBinaire arbrebin){
+        if (arbrebin.noeud == cle  && arbrebin.filsG==null && arbrebin.filsD == null) {
+            return null;
+        }
+        else if (arbrebin.noeud == cle  && arbrebin.filsG != null && arbrebin.filsD != null){
 
+        }
 
     }
 
