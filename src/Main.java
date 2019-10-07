@@ -9,6 +9,8 @@ public class Main {
 
         ArbreBinaire arbreBinaire = new ArbreBinaire();
 
+        //System.out.println("La hauteur de l'arbre est : " + arbreBinaire.getHauteur());
+
 
 
     }
