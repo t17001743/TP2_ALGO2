@@ -14,7 +14,7 @@ public class ArbreBinaire {
     }
 
     /**
-     * Constructeur d'arbre non vide
+     * Constructeur d'arbre non vide avec paramètres
      */
     public ArbreBinaire(ArbreBinaire filsG, int noeud, ArbreBinaire filsD) {
         this.noeud = noeud;
@@ -56,21 +56,30 @@ public class ArbreBinaire {
     }
 
 
+    /**
+     * @param arbre un arbre binaire
+     */
+    public void calculerHauteurArbre(ArbreBinaire arbre){
+        arbre.hauteur = 1 + Math.max(filsG.getHauteur(), filsD.getHauteur());
+    }
+
+
     //fonction recherche élément
 
 
-   /* public ArbreBinaire insertion(int cle,ArbreBinaire arbrebin){
-        if (arbrebin == null ) {
-            arbrebin = new ArbreBinaire(null, cle ,null);
+    public ArbreBinaire insertion(int noeud, ArbreBinaire arbre){
+        if (arbre == null) {
+            return new ArbreBinaire(null, noeud ,null);
         }
-        if (cle<arbrebin.noeud){
-            arbrebin.filsG= insertion(cle , arbrebin.filsG);
+        if (noeud < arbre.getNoeud()){
+            arbre.filsG = insertion(noeud , arbre.getFilsG());
         }
-        else if (cle>arbrebin.noeud){
-            arbrebin.filsD= insertion(cle , arbrebin.filsD);
+        else if (noeud>arbre.getNoeud()){
+            arbre.filsD = insertion(noeud , arbre.getFilsD());
         }
-        return arbrebin ;
-    }*/
+        return arbre;  //retour provisoire pour ne pas avoir d'erreur
+        //return equilibrer(arbre);
+    }
 
 
    /* public ArbreBinaire suppression(int cle , ArbreBinaire arbrebin){
@@ -86,7 +95,19 @@ public class ArbreBinaire {
     //fonction rééquilibrage
 
 
-    //fonction affichage de l'arbre
+    /*fonction affichage de l'arbre
+    public void afficherArbre(Arbre *racine, ulong prof)
+    {
+        ulong i;
+        for (i=0; i < prof; i++)
+        {
+            fputs("|___ ", stdout);
+        }
+
+        printf("[%s]\n", facine->nom);
+        if (racine->g) aff(racine->g, prof + 1);
+        if (racine->d) aff(racine->d, prof + 1);
+    }*/
 
 
 }
