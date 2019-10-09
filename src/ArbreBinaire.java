@@ -69,30 +69,56 @@ public class ArbreBinaire {
 
     public ArbreBinaire insertion(int noeud, ArbreBinaire arbre){
         if (arbre == null) {
-            return new ArbreBinaire(null, noeud ,null);
+            return new ArbreBinaire(new ArbreBinaire(), noeud , new ArbreBinaire());
         }
         if (noeud < arbre.getNoeud()){
             arbre.filsG = insertion(noeud , arbre.getFilsG());
         }
-        else if (noeud>arbre.getNoeud()){
+        else if (noeud > arbre.getNoeud()){
             arbre.filsD = insertion(noeud , arbre.getFilsD());
         }
-        return arbre;  //retour provisoire pour ne pas avoir d'erreur
-        //return equilibrer(arbre);
+        return reequilibrageApresInsertion(arbre);
     }
 
 
-   /* public ArbreBinaire suppression(int cle , ArbreBinaire arbrebin){
-        if (arbrebin.noeud == cle  && arbrebin.filsG==null && arbrebin.filsD == null) {
+    public ArbreBinaire suppression(int noeud , ArbreBinaire arbrebin){
+        if (arbrebin.noeud == noeud  && arbrebin.filsG == null && arbrebin.filsD == null) {
             return null;
         }
-        else if (arbrebin.noeud == cle  && arbrebin.filsG != null && arbrebin.filsD != null){
+        else if ((arbrebin.noeud == noeud  && arbrebin.filsG != null && arbrebin.filsD == null) || (arbrebin.noeud == noeud  && arbrebin.filsG == null && arbrebin.filsD != null)){
 
         }
-    }*/
+        else if
+    }
+
+
+    public ArbreBinaire reequilibrageDroite(ArbreBinaire arbre){
+        ArbreBinaire b = arbre.filsG;
+        ArbreBinaire c = new ArbreBinaire(arbre.filsD, arbre.noeud, b.filsD);
+        return new ArbreBinaire(c, b.noeud, b.filsG);
+    }
+
+
+    public ArbreBinaire reequilibrageGauche(ArbreBinaire arbre){
+        ArbreBinaire b = arbre.filsD;
+        ArbreBinaire c = new ArbreBinaire(arbre.filsG, arbre.noeud, b.filsG);
+        return new ArbreBinaire(c, b.noeud, b.filsD);
+    }
 
 
     //fonction rééquilibrage
+    public ArbreBinaire reequilibrageApresInsertion(ArbreBinaire arbre){
+        calculerHauteurArbre(arbre);
+        if (arbre.filsG.getHauteur() - arbre.filsD.getHauteur() == 2){
+            if (arbre.filsG.filsG.getHauteur() < arbre.filsG.filsD.getHauteur())
+                arbre.filsG = reequilibrageGauche(arbre.filsG);
+            return reequilibrageDroite(arbre);
+        } //else
+        /*if (arbre.filsG.getHauteur() - arbre.filsD.getHauteur() == -2){
+            ...
+        }*/
+        return arbre;
+    }
 
 
     /*fonction affichage de l'arbre

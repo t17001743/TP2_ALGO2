@@ -3,14 +3,20 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+
+        int noeud = 0;
+        ArbreBinaire arbreBinaire = new ArbreBinaire(new ArbreBinaire(), noeud, new ArbreBinaire());
+        int hauteur = 0;
+        System.out.println("\n");
         System.out.println("Veuillez saisir un entier:");
-        int noeud = sc.nextInt();
 
-        ArbreBinaire arbreBinaire = new ArbreBinaire();
+        do {     //boucle pour chaque nouvelle saisie d'entier
+            Scanner sc = new Scanner(System.in);
+            noeud = sc.nextInt();
+            hauteur++;
+            System.out.println(noeud + " (" + hauteur + ")");
 
-        //System.out.println("La hauteur de l'arbre est : " + arbreBinaire.getHauteur());
-
+        } while(noeud != 0);
 
 
     }
