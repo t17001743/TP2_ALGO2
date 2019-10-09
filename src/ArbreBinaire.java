@@ -67,6 +67,11 @@ public class ArbreBinaire {
     //fonction recherche élément
 
 
+    /**
+     * @param noeud le nouveau noeud à insérer dans l'arbre
+     * @param arbre l'arbre dans lequel insérer le noeud
+     * @return un nouvel arbre contenant le nouveau noeud
+     */
     public ArbreBinaire insertion(int noeud, ArbreBinaire arbre){
         if (arbre == null) {
             return new ArbreBinaire(new ArbreBinaire(), noeud , new ArbreBinaire());
@@ -77,9 +82,13 @@ public class ArbreBinaire {
         else if (noeud > arbre.getNoeud()){
             arbre.filsD = insertion(noeud , arbre.getFilsD());
         }
-        return reequilibrageApresInsertion(arbre);
+        return reequilibrage(arbre);
     }
 
+    /*
+     * @param noeud le noeud à supprimer de l'arbre
+     * @param arbre l'arbre dans lequel supprimer le noeud
+     * @return un nouvel arbre ne contenant plus le noeud
 
     public ArbreBinaire suppression(int noeud , ArbreBinaire arbrebin){
         if (arbrebin.noeud == noeud  && arbrebin.filsG == null && arbrebin.filsD == null) {
@@ -89,7 +98,7 @@ public class ArbreBinaire {
 
         }
         else if
-    }
+    }*/
 
 
     public ArbreBinaire reequilibrageDroite(ArbreBinaire arbre){
@@ -106,8 +115,11 @@ public class ArbreBinaire {
     }
 
 
-    //fonction rééquilibrage
-    public ArbreBinaire reequilibrageApresInsertion(ArbreBinaire arbre){
+    /**
+     * @param arbre l'arbre à rééquilibrer après une modification (insertion/suppression)
+     * @return l'arbre rééquilibré
+     */
+    public ArbreBinaire reequilibrage(ArbreBinaire arbre){
         calculerHauteurArbre(arbre);
         if (arbre.filsG.getHauteur() - arbre.filsD.getHauteur() == 2){
             if (arbre.filsG.filsG.getHauteur() < arbre.filsG.filsD.getHauteur())
