@@ -1,15 +1,15 @@
 public class ArbreBinaire {
-    int noeud, hauteur ;
-    ArbreBinaire filsG , filsD ;
-    //ArbreBinaire arbrebin ;
+
+    private int noeud, hauteur;
+    private ArbreBinaire filsG, filsD;
 
     /**
      * Constructeur d'arbre vide
      */
-    public ArbreBinaire (){
+    public ArbreBinaire() {
         this.noeud = 0;
         this.hauteur = 0;
-        this.filsG =null;
+        this.filsG = null;
         this.filsD = null;
     }
 
@@ -59,12 +59,23 @@ public class ArbreBinaire {
     /**
      * @param arbre un arbre binaire
      */
-    public void calculerHauteurArbre(ArbreBinaire arbre){
+    public void calculerHauteurArbre(ArbreBinaire arbre) {
         arbre.hauteur = 1 + Math.max(filsG.getHauteur(), filsD.getHauteur());
     }
 
 
-    //fonction recherche élément
+    /**
+     * @param element l'élément à chercher dans l'arbre
+     * @param arbre   l'arbre dans lequel chercher l'élément
+     * @return null si l'arbre ne contient pas l'élément recherché
+     */
+    public ArbreBinaire rechercheElement(int element, ArbreBinaire arbre) {
+        if (arbre == null || element == arbre.noeud)
+            return arbre;
+        if (element < arbre.getNoeud())
+            return rechercheElement(element, arbre.filsG);
+        return rechercheElement(noeud, arbre.filsD);
+    }
 
 
     /**
@@ -72,43 +83,64 @@ public class ArbreBinaire {
      * @param arbre l'arbre dans lequel insérer le noeud
      * @return un nouvel arbre contenant le nouveau noeud
      */
-    public ArbreBinaire insertion(int noeud, ArbreBinaire arbre){
+    public ArbreBinaire insertion(int noeud, ArbreBinaire arbre) {
         if (arbre == null) {
-            return new ArbreBinaire(new ArbreBinaire(), noeud , new ArbreBinaire());
+            return new ArbreBinaire(new ArbreBinaire(), noeud, new ArbreBinaire());
         }
-        if (noeud < arbre.getNoeud()){
-            arbre.filsG = insertion(noeud , arbre.getFilsG());
-        }
-        else if (noeud > arbre.getNoeud()){
-            arbre.filsD = insertion(noeud , arbre.getFilsD());
+        if (noeud < arbre.getNoeud()) {
+            arbre.filsG = insertion(noeud, arbre.getFilsG());
+        } else if (noeud > arbre.getNoeud()) {
+            arbre.filsD = insertion(noeud, arbre.getFilsD());
         }
         return reequilibrage(arbre);
     }
 
-    /*
+
+    /**
      * @param noeud le noeud à supprimer de l'arbre
      * @param arbre l'arbre dans lequel supprimer le noeud
      * @return un nouvel arbre ne contenant plus le noeud
+     */
+    public ArbreBinaire suppression(int noeud, ArbreBinaire arbre) {
+        if (arbre == null)
+            return arbre;
+        if (noeud == arbre.noeud)
+            return suppressionRacine(arbre);
+        if (noeud < arbre.noeud)
+            arbre.filsG = suppression(noeud, arbre.filsG);
+        else
+            arbre.filsD = suppression(noeud, arbre.filsD);
+        return arbre;
+    }
 
-    public ArbreBinaire suppression(int noeud , ArbreBinaire arbrebin){
-        if (arbrebin.noeud == noeud  && arbrebin.filsG == null && arbrebin.filsD == null) {
-            return null;
-        }
-        else if ((arbrebin.noeud == noeud  && arbrebin.filsG != null && arbrebin.filsD == null) || (arbrebin.noeud == noeud  && arbrebin.filsG == null && arbrebin.filsD != null)){
 
-        }
-        else if
-    }*/
+    public ArbreBinaire suppressionRacine(ArbreBinaire arbre) {
+        if (arbre.filsG == null)
+            return arbre.filsD;
+        if (arbre.filsD == null)
+            return arbre.filsG;
+        ArbreBinaire arbre2 = descendant(arbre.filsG);
+        arbre.noeud = arbre2.noeud;
+        arbre.filsG = suppression(arbre2.noeud, arbre.filsG);
+        return arbre;
+    }
 
 
-    public ArbreBinaire reequilibrageDroite(ArbreBinaire arbre){
+    public ArbreBinaire descendant(ArbreBinaire arbre) {
+        if (arbre.filsD == null)
+            return arbre;
+        return descendant(arbre.filsD);
+    }
+
+
+    public ArbreBinaire reequilibrageDroite(ArbreBinaire arbre) {
         ArbreBinaire b = arbre.filsG;
         ArbreBinaire c = new ArbreBinaire(arbre.filsD, arbre.noeud, b.filsD);
         return new ArbreBinaire(c, b.noeud, b.filsG);
     }
 
 
-    public ArbreBinaire reequilibrageGauche(ArbreBinaire arbre){
+    public ArbreBinaire reequilibrageGauche(ArbreBinaire arbre) {
         ArbreBinaire b = arbre.filsD;
         ArbreBinaire c = new ArbreBinaire(arbre.filsG, arbre.noeud, b.filsG);
         return new ArbreBinaire(c, b.noeud, b.filsD);
@@ -119,33 +151,30 @@ public class ArbreBinaire {
      * @param arbre l'arbre à rééquilibrer après une modification (insertion/suppression)
      * @return l'arbre rééquilibré
      */
-    public ArbreBinaire reequilibrage(ArbreBinaire arbre){
+    public ArbreBinaire reequilibrage(ArbreBinaire arbre) {
         calculerHauteurArbre(arbre);
-        if (arbre.filsG.getHauteur() - arbre.filsD.getHauteur() == 2){
+        if (arbre.filsG.getHauteur() - arbre.filsD.getHauteur() == 2) {
             if (arbre.filsG.filsG.getHauteur() < arbre.filsG.filsD.getHauteur())
                 arbre.filsG = reequilibrageGauche(arbre.filsG);
             return reequilibrageDroite(arbre);
-        } //else
-        /*if (arbre.filsG.getHauteur() - arbre.filsD.getHauteur() == -2){
-            ...
-        }*/
+        }
         return arbre;
     }
 
-
-    /*fonction affichage de l'arbre
-    public void afficherArbre(Arbre *racine, ulong prof)
-    {
-        ulong i;
-        for (i=0; i < prof; i++)
-        {
-            fputs("|___ ", stdout);
-        }
-
-        printf("[%s]\n", facine->nom);
-        if (racine->g) aff(racine->g, prof + 1);
-        if (racine->d) aff(racine->d, prof + 1);
+    /*
+    //fonction affichage de l'arbre
+    //stocker des espaces vides dans un tableau de char et décrémenter/incrémenter pour avoir le bon espacement entre chaque niveau de l'arbre
+    public void affichageArbre(ArbreBinaire arbre, int profondeur) {
+        if(arbre == null) return;
+        for(int i = 0; i <= profondeur; i++) System.out.println("|");
+        System.out.println(arbre.noeud);
+        affichageArbre(arbre.filsG, profondeur+1);
+        affichageArbre(arbre.filsD, profondeur+1);
     }*/
 
+
+    public void affichageArbreCrochets(ArbreBinaire arbre){
+        System.out.println("[" + arbre.noeud + ", " + arbre.filsG.filsG + ", " + arbre.filsD.filsD + "]");
+    }
 
 }
