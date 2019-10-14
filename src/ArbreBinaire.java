@@ -57,24 +57,17 @@ public class ArbreBinaire {
 
 
     /**
-     * @param arbre un arbre binaire
-     */
-    public void calculerHauteurArbre(ArbreBinaire arbre) {
-        arbre.hauteur = 1 + Math.max(filsG.getHauteur(), filsD.getHauteur());
-    }
-
-
-    /**
      * @param element l'élément à chercher dans l'arbre
-     * @param arbre   l'arbre dans lequel chercher l'élément
-     * @return null si l'arbre ne contient pas l'élément recherché
+     * @return un booléen indiquant vrai si l'élément a été trouvé dans l'arbre, faux sinon
      */
-    public ArbreBinaire rechercheElement(int element, ArbreBinaire arbre) {
-        if (arbre == null || element == arbre.noeud)
-            return arbre;
-        if (element < arbre.getNoeud())
-            return rechercheElement(element, arbre.filsG);
-        return rechercheElement(noeud, arbre.filsD);
+    public boolean rechercheElement(int element) {
+        if (element == getNoeud())
+            return true;
+        if ((element < getNoeud()) && (getFilsG() != null))
+            return (getFilsG().rechercheElement(element));
+        if ((element > getNoeud()) && (getFilsD() != null))
+            return (getFilsD().rechercheElement(element));
+        return false;
     }
 
 
@@ -114,6 +107,10 @@ public class ArbreBinaire {
     }
 
 
+    /**
+     * @param arbre l'arbre duquel supprimer la racine
+     * @return l'arbre dont la racine a été supprimée
+     */
     public ArbreBinaire suppressionRacine(ArbreBinaire arbre) {
         if (arbre.filsG == null)
             return arbre.filsD;
@@ -126,6 +123,10 @@ public class ArbreBinaire {
     }
 
 
+    /**
+     * @param arbre l'arbre dans lequel faire la recherche
+     * @return le descendant d'un noeud
+     */
     public ArbreBinaire descendant(ArbreBinaire arbre) {
         if (arbre.filsD == null)
             return arbre;
@@ -133,6 +134,10 @@ public class ArbreBinaire {
     }
 
 
+    /**
+     * @param arbre l'arbre à rééquilibrer, qui "penche" trop à droite
+     * @return l'arbre rééquilibré à droite
+     */
     public ArbreBinaire reequilibrageDroite(ArbreBinaire arbre) {
         ArbreBinaire b = arbre.filsG;
         ArbreBinaire c = new ArbreBinaire(arbre.filsD, arbre.noeud, b.filsD);
@@ -140,6 +145,10 @@ public class ArbreBinaire {
     }
 
 
+    /**
+     * @param arbre l'arbre à rééquilibrer, qui "penche" trop à gauche
+     * @return l'arbre rééquilibré à gauche
+     */
     public ArbreBinaire reequilibrageGauche(ArbreBinaire arbre) {
         ArbreBinaire b = arbre.filsD;
         ArbreBinaire c = new ArbreBinaire(arbre.filsG, arbre.noeud, b.filsG);
@@ -152,7 +161,6 @@ public class ArbreBinaire {
      * @return l'arbre rééquilibré
      */
     public ArbreBinaire reequilibrage(ArbreBinaire arbre) {
-        calculerHauteurArbre(arbre);
         if (arbre.filsG.getHauteur() - arbre.filsD.getHauteur() == 2) {
             if (arbre.filsG.filsG.getHauteur() < arbre.filsG.filsD.getHauteur())
                 arbre.filsG = reequilibrageGauche(arbre.filsG);
@@ -161,18 +169,12 @@ public class ArbreBinaire {
         return arbre;
     }
 
-    /*
-    //fonction affichage de l'arbre
-    //stocker des espaces vides dans un tableau de char et décrémenter/incrémenter pour avoir le bon espacement entre chaque niveau de l'arbre
-    public void affichageArbre(ArbreBinaire arbre, int profondeur) {
-        if(arbre == null) return;
-        for(int i = 0; i <= profondeur; i++) System.out.println("|");
-        System.out.println(arbre.noeud);
-        affichageArbre(arbre.filsG, profondeur+1);
-        affichageArbre(arbre.filsD, profondeur+1);
-    }*/
 
-
+    /**
+     * @param arbre l'arbre à afficher
+     * Afficher l'arbre dans la console avec des crochets sous la forme "[noeud, filsG, filsD]". Par exemple,
+     * pour un arbre ne contenant qu'un seul noeud 30, il y aura "[30, null, null]".
+     */
     public void affichageArbreCrochets(ArbreBinaire arbre){
         System.out.println("[" + arbre.noeud + ", " + arbre.filsG.filsG + ", " + arbre.filsD.filsD + "]");
     }
