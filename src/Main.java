@@ -3,38 +3,36 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        int noeud = 0;
-        ArbreBinaire arbreBinaire = new ArbreBinaire(new ArbreBinaire(), noeud, new ArbreBinaire());
+        ArbreAVL arbreAVL = new ArbreAVL();
 
         System.out.println("\n");
         System.out.println("Veuillez saisir un entier :");
 
         do {     //boucle pour chaque nouvelle saisie d'entier
             Scanner sc = new Scanner(System.in);
-            noeud = sc.nextInt();
+            int entree = sc.nextInt();
+            arbreAVL.getRacine().setValeur(entree);
 
-            //arbreBinaire.insertion(noeud, arbreBinaire);
-            arbreBinaire.setNoeud(noeud);
-            System.out.println(noeud + " (" + arbreBinaire.getHauteur() + ")");
+            System.out.println(entree + " (" + arbreAVL.getHauteur(arbreAVL.getRacine()) + ")");
 
-            arbreBinaire.affichageArbreCrochets(arbreBinaire);
+            System.out.println(arbreAVL.affichageEntreCrochets(arbreAVL.getRacine()));
             System.out.println("\n");
 
-            //arbreBinaire.getFilsG().setHauteur(hauteur++);
-            //arbreBinaire.getFilsD().setHauteur(hauteur++);
+            //arbreAVL.getFilsG().setHauteur(getHauteur++);
+            //arbreAVL.getFilsD().setHauteur(getHauteur++);
 
-            arbreBinaire.setFilsG(arbreBinaire.getFilsG());
-            arbreBinaire.setFilsD(arbreBinaire.getFilsD());
+            arbreAVL.getRacine().setFilsG(arbreAVL.getRacine().getFilsG());
+            arbreAVL.getRacine().setFilsD(arbreAVL.getRacine().getFilsD());
 
-            if (arbreBinaire.getFilsG().getHauteur() - arbreBinaire.getFilsD().getHauteur() == 2){
+            if (arbreAVL.getHauteur(arbreAVL.getRacine().getFilsG()) - arbreAVL.getHauteur(arbreAVL.getRacine().getFilsD()) == 2){
                 System.out.println("Rééquilibrage de l'arbre...");
-                arbreBinaire.reequilibrage(arbreBinaire);
+                arbreAVL.reequilibrage(arbreAVL.getRacine());
             }
 
-            //arbreBinaire.setFilsG(arbreBinaire.getFilsG());
-            //arbreBinaire.setFilsD(arbreBinaire.getFilsD());
+            //arbreAVL.setFilsG(arbreAVL.getFilsG());
+            //arbreAVL.setFilsD(arbreAVL.getFilsD());
 
-        } while(noeud != 0);
+        } while(arbreAVL.getRacine().getValeur() != 0);
     }
 
 }
